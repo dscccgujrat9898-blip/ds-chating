@@ -4,9 +4,10 @@
   "description": "Desktop-first WhatsApp-like MVP chat and calling app",
   "main": "electron/main.js",
   "scripts": {
-    "start": "node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
-    "dev": "node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
-    "build:win": "electron-builder --win portable"
+    "start": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "dev": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "build:win": "electron-builder --win portable",
+    "check:conflicts": "node scripts/check-conflicts.js"
   },
   "build": {
     "appId": "com.dschating.app",
