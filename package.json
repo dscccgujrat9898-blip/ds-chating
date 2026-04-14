@@ -4,10 +4,16 @@
   "description": "Desktop-first WhatsApp-like MVP chat and calling app",
   "main": "electron/main.js",
   "scripts": {
+ codex/develop-chat-app-with-audio/video-call-features-07w4ft
     "start": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
     "dev": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
     "build:win": "electron-builder --win portable",
     "check:conflicts": "node scripts/check-conflicts.js"
+
+    "start": "concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "dev": "concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "build:win": "electron-builder --win portable"
+ main
   },
   "build": {
     "appId": "com.dschating.app",
@@ -31,8 +37,13 @@
   "devDependencies": {
     "electron": "^35.2.1",
     "electron-builder": "^25.1.8"
+ codex/develop-chat-app-with-audio/video-call-features-07w4ft
   },
   "engines": {
     "node": ">=18 <23"
   }
 }
+
+  }
+}
+main

@@ -1,3 +1,4 @@
+codex/develop-chat-app-with-audio/video-call-features-07w4ft
 # DS Chating (Desktop + Mobile Friendly MVP)
 
 Is update me app ko WhatsApp-like flow ke aur paas laya gaya hai (UI v2 Tabs+History):
@@ -17,6 +18,26 @@ Is update me app ko WhatsApp-like flow ke aur paas laya gaya hai (UI v2 Tabs+His
 
 ## Run
 
+# DS Chating (Desktop EXE MVP)
+
+Ye project WhatsApp-jaisa **desktop-first** chatting app ka MVP hai (Electron + Node.js), jisme:
+
+- ID create/login (name + email)
+- Sab users list me visible
+- Connect request send/accept/reject
+- P2P chat
+- Audio call / Video call
+- File transfer (data channel)
+- Screen share
+- Local storage (profile + chats via localStorage)
+- Backup / restore (Documents/DS-Chating-Backups)
+- Windows portable `.exe` build support
+
+> Note: RustDesk-jaisa full remote Windows control browser security aur OS-level automation ki wajah se alag native module demand karta hai. Is MVP me screen share aur live communication included hai.
+
+## Run (development)
+ main
+
 ```bash
 npm install
 npm start
@@ -28,6 +49,7 @@ npm start
 npm run build:win
 ```
 
+codex/develop-chat-app-with-audio/video-call-features-07w4ft
 ## Mobile to mobile testing
 
 1. App host machine and mobiles same Wi-Fi pe rakho.
@@ -59,3 +81,16 @@ to ye usually `server.js` file ke andar accidental extra text insert hone se hot
    Ensure first lines exactly `const express = require('express');`, `const http = require('http');`, etc.
 3. Fresh copy ke liye repo dobara pull/clone karo.
 4. Supported Node version use karo: `>=18 <23` (Node 25 avoid karo for Electron compatibility).
+
+Output artifact typically:
+
+- `dist/DS Chating 1.0.0.exe` (portable)
+
+## Backup behavior
+
+- Chat/profile data local machine par rahta hai.
+- Backup button se JSON file banegi.
+- Email ko filename me use kiya jata hai (safe format).
+- Optional custom backup filename input available.
+- Restore button se JSON backup import ho sakta hai.
+ main
