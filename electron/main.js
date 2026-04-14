@@ -15,6 +15,7 @@ function createWindow() {
     }
   });
 
+ codex/develop-chat-app-with-audio/video-call-features-l9m9s2
   win.webContents.session.clearCache().finally(() => {
     win.loadURL('http://localhost:3000');
   });
@@ -22,6 +23,12 @@ function createWindow() {
 
 app.whenReady().then(() => {
   app.commandLine.appendSwitch('disable-http-cache');
+
+  win.loadURL('http://localhost:3000');
+}
+
+app.whenReady().then(() => {
+ main
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
