@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DS Chating</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="theme-classic">
+    <div class="app">
+      <aside class="sidebar">
+        <h1>DS Chating <small id="uiVersion">v2 Tabs+History</small></h1>
+
+        <div class="card">
+          <h3>Account</h3>
+          <input id="name" placeholder="Name" />
+          <input id="email" placeholder="Email" />
+          <input id="password" type="password" placeholder="Password" />
+          <button id="registerBtn">Create / Login</button>
+          <button id="forgotBtn">Forgot Password</button>
+          <small id="selfId"></small>
+          <small id="accessLink"></small>
+        </div>
+
+        <div class="card">
+          <h3>Add Friend</h3>
+          <input id="findEmail" placeholder="Friend email" />
+          <button id="findBtn">Find + Send Request</button>
+        </div>
+
+        <div class="card">
+          <h3>Friend Requests</h3>
+          <ul id="requestsList"></ul>
+        </div>
+
+        <div class="card">
+          <h3>Friends</h3>
+          <ul id="friendsList"></ul>
+        </div>
+
+        <div class="card">
+          <h3>Groups</h3>
+          <input id="groupName" placeholder="Group name" />
+          <input id="groupMembers" placeholder="Friend IDs comma separated" />
+          <button id="createGroupBtn">Create Group</button>
+          <ul id="groupsList"></ul>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="toolbar">
+          <div>
+            <strong id="peerInfo">No chat selected</strong>
+            <div id="statusLine" class="muted"></div>
+          </div>
+          <nav class="tabs">
+            <button class="tab-btn active" data-tab="chatTab">Chat</button>
+            <button class="tab-btn" data-tab="callTab">Call</button>
+            <button class="tab-btn" data-tab="shareTab">Share</button>
+            <button class="tab-btn" data-tab="historyTab">History</button>
+            <button class="tab-btn" data-tab="settingsTab">Settings</button>
+          </nav>
+        </header>
+
+        <section id="chatTab" class="tab-content active">
+          <ul id="chatList" class="panel-list"></ul>
+          <div class="sendBox">
+            <input id="chatInput" placeholder="Type message..." />
+            <button id="sendBtn">Send</button>
+          </div>
+          <div class="danger-row">
+            <button id="deleteCurrentChatBtn" class="danger">Delete This Chat</button>
+            <button id="deleteAllChatsBtn" class="danger">Delete All Chats</button>
+          </div>
+        </section>
+
+        <section id="callTab" class="tab-content">
+          <div class="icon-toolbar">
+            <button id="audioBtn" class="icon-btn" title="Audio call">Audio</button>
+            <button id="videoBtn" class="icon-btn" title="Video call">Video</button>
+            <button id="endCallBtn" class="icon-btn" title="End call">End</button>
+          </div>
+          <section id="callPanel" class="videos hidden">
+            <video id="localVideo" autoplay muted playsinline></video>
+            <video id="remoteVideo" autoplay playsinline></video>
+          </section>
+        </section>
+
+        <section id="shareTab" class="tab-content">
+          <div class="icon-toolbar">
+            <button id="screenBtn" class="icon-btn" title="Screen share">Share</button>
+            <label class="icon-btn file-icon" title="Send file">File<input type="file" id="fileInput" /></label>
+          </div>
+          <ul id="filesList" class="panel-list"></ul>
+        </section>
+
+        <section id="historyTab" class="tab-content">
+          <h3>Message + Call History</h3>
+          <div id="historyStats" class="muted"></div>
+          <ul id="historyList" class="panel-list"></ul>
+          <button id="clearHistoryBtn" class="danger">Clear Full History</button>
+        </section>
+
+        <section id="settingsTab" class="tab-content">
+          <div class="settings-grid">
+            <div class="card light">
+              <h3>Profile</h3>
+              <input id="dpInput" placeholder="DP image URL" />
+              <input id="statusInput" placeholder="Status text" />
+              <button id="saveProfileBtn">Save Profile</button>
+            </div>
+            <div class="card light">
+              <h3>Privacy / Lock</h3>
+              <input id="lockPin" type="password" placeholder="Set app lock PIN" />
+              <label class="toggle-row"><input id="appLockToggle" type="checkbox" /> Enable App Lock</label>
+            </div>
+            <div class="card light">
+              <h3>Theme + Font</h3>
+              <select id="themeSelect">
+                <option value="theme-classic">Classic</option>
+                <option value="theme-darkglass">Dark Glass</option>
+                <option value="theme-neon">Neon</option>
+                <option value="theme-sunset">Sunset</option>
+                <option value="theme-forest">Forest</option>
+              </select>
+              <input id="fontSize" type="range" min="14" max="22" value="16" />
+            </div>
+            <div class="card light">
+              <h3>Backup / Restore</h3>
+              <input id="backupName" placeholder="Optional file name" />
+              <button id="backupBtn">Backup Now</button>
+              <button id="restoreBtn">Restore Backup</button>
+              <small id="backupStatus"></small>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

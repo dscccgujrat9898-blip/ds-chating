@@ -1,0 +1,38 @@
+{
+  "name": "ds-chating",
+  "version": "1.0.0",
+  "description": "Desktop-first WhatsApp-like MVP chat and calling app",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "dev": "npm run check:conflicts && node --check server.js && concurrently \"node server.js\" \"wait-on tcp:3000 && electron .\"",
+    "build:win": "electron-builder --win portable",
+    "check:conflicts": "node scripts/check-conflicts.js"
+  },
+  "build": {
+    "appId": "com.dschating.app",
+    "productName": "DS Chating",
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "server.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "express": "^4.21.2",
+    "ws": "^8.18.3",
+    "wait-on": "^8.0.1"
+  },
+  "devDependencies": {
+    "electron": "^35.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "engines": {
+    "node": ">=18 <23"
+  }
+}
