@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DS Chating</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>DS Chating</h1>
+
+        <div id="authBox" class="card">
+          <h3>Create ID</h3>
+          <input id="name" placeholder="Name" />
+          <input id="email" placeholder="Email" />
+          <button id="registerBtn">Create / Login</button>
+          <small id="selfId"></small>
+          <small id="accessLink"></small>
+        </div>
+
+        <div class="card">
+          <h3>Users</h3>
+          <ul id="usersList"></ul>
+        </div>
+
+        <div class="card">
+          <h3>Requests</h3>
+          <ul id="requestsList"></ul>
+        </div>
+
+        <div class="card">
+          <h3>Backup / Restore</h3>
+          <input id="backupName" placeholder="Optional file name" />
+          <button id="backupBtn">Backup Now</button>
+          <button id="restoreBtn">Restore Backup</button>
+          <small id="backupStatus"></small>
+        </div>
+
+        <div class="card">
+          <h3>RustDesk-like Settings</h3>
+          <label class="toggle-row"><input id="autoAcceptToggle" type="checkbox" /> Auto accept requests</label>
+          <label class="toggle-row"><input id="remoteControlToggle" type="checkbox" /> Allow remote control mode</label>
+          <small class="muted">Screen share + control signaling enabled (OS-level full control not included in this MVP).</small>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="toolbar">
+          <span id="peerInfo">Not connected</span>
+
+          <div class="icon-toolbar">
+            <button id="connectRtcBtn" class="icon-btn" title="Connect">🔗</button>
+            <button id="audioBtn" class="icon-btn" title="Audio call">📞</button>
+            <button id="videoBtn" class="icon-btn" title="Video call">🎥</button>
+            <button id="screenBtn" class="icon-btn" title="Screen share">🖥️</button>
+            <label class="icon-btn file-icon" title="Send file">
+              📎
+              <input type="file" id="fileInput" />
+            </label>
+          </div>
+        </header>
+
+        <section id="callPanel" class="videos hidden">
+          <video id="localVideo" autoplay muted playsinline></video>
+          <video id="remoteVideo" autoplay playsinline></video>
+        </section>
+
+        <section class="chat">
+          <ul id="chatList"></ul>
+          <div class="sendBox">
+            <input id="chatInput" placeholder="Type message..." />
+            <button id="sendBtn">Send</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
