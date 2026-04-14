@@ -6,6 +6,7 @@
     <title>DS Chating</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
   <body class="theme-classic">
     <div class="app">
       <aside class="sidebar">
@@ -44,11 +45,39 @@
           <input id="groupMembers" placeholder="Friend IDs comma separated" />
           <button id="createGroupBtn">Create Group</button>
           <ul id="groupsList"></ul>
+
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>DS Chating</h1>
+        <div id="authBox" class="card">
+          <h3>Create ID</h3>
+          <input id="name" placeholder="Name" />
+          <input id="email" placeholder="Email" />
+          <button id="registerBtn">Create / Login</button>
+          <small id="selfId"></small>
+        </div>
+        <div class="card">
+          <h3>Users</h3>
+          <ul id="usersList"></ul>
+        </div>
+        <div class="card">
+          <h3>Requests</h3>
+          <ul id="requestsList"></ul>
+        </div>
+        <div class="card">
+          <h3>Backup / Restore</h3>
+          <input id="backupName" placeholder="Optional file name" />
+          <button id="backupBtn">Backup Now</button>
+          <button id="restoreBtn">Restore Backup</button>
+          <small id="backupStatus"></small>
+ main
         </div>
       </aside>
 
       <main class="main">
         <header class="toolbar">
+codex/develop-chat-app-with-audio/video-call-features-b2q8v7
           <div>
             <strong id="peerInfo">No chat selected</strong>
             <div id="statusLine" class="muted"></div>
@@ -64,10 +93,30 @@
 
         <section id="chatTab" class="tab-content active">
           <ul id="chatList" class="panel-list"></ul>
+
+          <span id="peerInfo">Not connected</span>
+          <div class="buttons">
+            <button id="connectRtcBtn">Connect P2P</button>
+            <button id="audioBtn">Audio Call</button>
+            <button id="videoBtn">Video Call</button>
+            <button id="screenBtn">Screen Share</button>
+            <input type="file" id="fileInput" />
+          </div>
+        </header>
+
+        <section class="videos">
+          <video id="localVideo" autoplay muted playsinline></video>
+          <video id="remoteVideo" autoplay playsinline></video>
+        </section>
+
+        <section class="chat">
+          <ul id="chatList"></ul>
+ main
           <div class="sendBox">
             <input id="chatInput" placeholder="Type message..." />
             <button id="sendBtn">Send</button>
           </div>
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
           <div class="danger-row">
             <button id="deleteCurrentChatBtn" class="danger">Delete This Chat</button>
             <button id="deleteAllChatsBtn" class="danger">Delete All Chats</button>
@@ -136,6 +185,11 @@
       </main>
     </div>
 
+
+        </section>
+      </main>
+    </div>
+ main
     <script src="app.js"></script>
   </body>
 </html>

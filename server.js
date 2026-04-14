@@ -1,7 +1,10 @@
 const express = require('express');
 const http = require('http');
+codex/develop-chat-app-with-audio/video-call-features-b2q8v7
 const os = require('os');
 const { randomUUID } = require('crypto');
+
+ main
 const { WebSocketServer } = require('ws');
 
 const app = express();
@@ -9,6 +12,7 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const PORT = process.env.PORT || 3000;
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
 const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(express.static('src'));
@@ -79,6 +83,36 @@ function pairKey(a, b) {
 }
 
 
+
+
+app.use(express.static('src'));
+
+const users = new Map();
+const requests = new Map();
+
+function getPublicUsers() {
+  return Array.from(users.entries()).map(([id, user]) => ({
+    id,
+    name: user.name,
+    email: user.email,
+    online: user.socket.readyState === 1
+  }));
+}
+
+function send(socket, type, payload = {}) {
+  if (socket.readyState === 1) {
+    socket.send(JSON.stringify({ type, payload }));
+  }
+}
+
+function broadcastUsers() {
+  const allUsers = getPublicUsers();
+  for (const { socket } of users.values()) {
+    send(socket, 'users:list', { users: allUsers });
+  }
+}
+
+ main
 wss.on('connection', (socket) => {
   let currentUserId = null;
 
@@ -93,6 +127,7 @@ wss.on('connection', (socket) => {
     const { type, payload } = msg;
 
     if (type === 'auth:register') {
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
       const { id, name, email, password } = payload;
       if (!id || !name || !email || !password) return;
 
@@ -125,11 +160,22 @@ wss.on('connection', (socket) => {
       if (!requests.has(uid)) requests.set(uid, []);
       send(socket, 'auth:ok', { id: uid, email, name });
       pushDashboard(uid);
+
+      const { id, name, email } = payload;
+      if (!id || !name || !email) return;
+
+      users.set(id, { id, name, email, socket });
+      currentUserId = id;
+      if (!requests.has(id)) requests.set(id, []);
+      send(socket, 'auth:ok', { id, pendingRequests: requests.get(id) });
+      broadcastUsers();
+ main
       return;
     }
 
     if (!currentUserId) return;
 
+codex/develop-chat-app-with-audio/video-call-features-b2q8v7
     if (type === 'user:lookup') {
       const email = (payload.queryEmail || '').trim().toLowerCase();
       const foundUserId = emailToUserId.get(email);
@@ -168,6 +214,19 @@ wss.on('connection', (socket) => {
       requests.set(toUserId, queue);
       pushDashboard(toUserId);
       send(socket, 'request:sent', { toUserId });
+
+    if (type === 'request:connect') {
+      const { toUserId } = payload;
+      const fromUser = users.get(currentUserId);
+      if (!users.has(toUserId) || toUserId === currentUserId) return;
+
+      const queue = requests.get(toUserId) || [];
+      queue.push({ fromUserId: currentUserId, fromName: fromUser.name, email: fromUser.email, at: Date.now() });
+      requests.set(toUserId, queue);
+
+      const toSocket = users.get(toUserId).socket;
+      send(toSocket, 'request:incoming', { fromUserId: currentUserId, fromName: fromUser.name, email: fromUser.email });
+main
       return;
     }
 
@@ -176,6 +235,7 @@ wss.on('connection', (socket) => {
       const myQueue = requests.get(currentUserId) || [];
       requests.set(currentUserId, myQueue.filter((r) => r.fromUserId !== fromUserId));
 
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
       if (accepted) {
         const me = users.get(currentUserId);
         const other = users.get(fromUserId);
@@ -191,10 +251,15 @@ wss.on('connection', (socket) => {
       const fromUser = users.get(fromUserId);
       if (fromUser) {
         send(fromUser.socket, 'request:result', { userId: currentUserId, accepted });
+
+      if (users.has(fromUserId)) {
+        send(users.get(fromUserId).socket, 'request:result', { userId: currentUserId, accepted });
+ main
       }
       return;
     }
 
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
     if (type === 'direct:message') {
       const { toUserId, text } = payload;
       const from = users.get(currentUserId);
@@ -276,11 +341,18 @@ wss.on('connection', (socket) => {
       const toUser = users.get(toUserId);
       if (!toUser) return;
       send(toUser.socket, 'rtc:signal', { fromUserId: currentUserId, signal });
+
+    if (type === 'rtc:signal') {
+      const { toUserId, signal } = payload;
+      if (!users.has(toUserId)) return;
+      send(users.get(toUserId).socket, 'rtc:signal', { fromUserId: currentUserId, signal });
+ main
     }
   });
 
   socket.on('close', () => {
     if (currentUserId && users.has(currentUserId)) {
+ codex/develop-chat-app-with-audio/video-call-features-b2q8v7
       const user = users.get(currentUserId);
       user.socket = null;
       (user.contacts || []).forEach((id) => pushDashboard(id));
@@ -289,5 +361,14 @@ wss.on('connection', (socket) => {
 });
 
 server.listen(PORT, HOST, () => {
+
+      users.delete(currentUserId);
+      broadcastUsers();
+    }
+  });
+});
+
+server.listen(PORT, () => {
+ main
   console.log(`Server running at http://localhost:${PORT}`);
 });
